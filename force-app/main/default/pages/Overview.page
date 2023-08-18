@@ -1,0 +1,45 @@
+<apex:page controller="BillsPaymentOverviewController" lightningStylesheets="true" showHeader="false" sidebar="false" standardStylesheets="false">
+ 
+    <apex:pageBlock >
+        <h2>Billing Summary</h2>
+
+        <h3>Accounts with Bills</h3>
+        <apex:pageBlockTable value="{!accountsWithBills}" var="account">
+            <apex:column value="{!account.Name}" headerValue="Account Name"/>
+            <apex:column headerValue="Bills">
+                <apex:pageBlockTable value="{!account.Bills__r}" var="bill">
+                    <apex:column value="{!bill.Name}" headerValue="Name" headerClass="hiddenHeader"/>
+                </apex:pageBlockTable>
+            </apex:column>
+        </apex:pageBlockTable>
+
+        <h3>High Priority Bills with Outstanding Balance</h3>
+        <apex:pageBlockTable value="{!highPriorityBills}" var="bill">
+            <apex:column value="{!bill.Name}" headerValue="Bill Name" />
+            <apex:column value="{!bill.Amount_Due__c}" headerValue="Amount Due" />
+            <apex:column value="{!bill.Amount_Remaining__c}" headerValue="Amount Remaining" />
+            <apex:column value="{!bill.Due_Date__c}" headerValue="Due Date" />
+        </apex:pageBlockTable>
+
+        <h3>Total Payments</h3>
+        <apex:pageBlockTable value="{!payments}" var="payment">
+            <apex:column value="{!payment.Bill__r.Account__r.Name}" headerValue="Account" />
+            <apex:column value="{!payment.Name}" headerValue="Bill Name" />
+            <apex:column value="{!payment.Amount_Paid__c}" headerValue="Amount Paid" />
+            <apex:column value="{!payment.Payment_Date__c}" headerValue="Payment Date" />
+        </apex:pageBlockTable>
+    
+        <h3>Overdue Reminders</h3>
+        <apex:pageBlockTable value="{!reminders}" var="reminder">
+            <apex:column value="{!reminder.Name}" headerValue="Bill Name" />
+             <apex:column value="{!reminder.Description__c}" headerValue="Description" />
+            <apex:column value="{!reminder.Due_Date__c}" headerValue="Due Date" />
+        </apex:pageBlockTable>
+        
+    </apex:pageBlock>
+    <style>
+        .hiddenHeader {
+            display: none;
+        }
+    </style>
+</apex:page>
